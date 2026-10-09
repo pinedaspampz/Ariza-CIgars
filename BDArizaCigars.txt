@@ -1,0 +1,84 @@
+
+CREATE TABLE Roles (
+    idRol INT IDENTITY(1,1) PRIMARY KEY,
+    rol VARCHAR(50) NOT NULL,
+    descripcion VARCHAR(255)
+);
+
+CREATE TABLE Clientes (
+    idCliente INT IDENTITY(1,1) PRIMARY KEY,
+    nombreCompleto VARCHAR(150) NOT NULL,
+    telefono VARCHAR(20),
+    correo VARCHAR(100),
+    estado BIT NOT NULL DEFAULT 1
+);
+
+CREATE TABLE Productos (
+    idProducto INT IDENTITY(1,1) PRIMARY KEY,
+    nombreProducto VARCHAR(100) NOT NULL,
+    vitola VARCHAR(50),
+    descripcion VARCHAR(255),
+    costoFabricacion DECIMAL(18,2),
+    estado BIT NOT NULL DEFAULT 1
+);
+
+CREATE TABLE Inventario_Materiales (
+    idMaterial INT IDENTITY(1,1) PRIMARY KEY,
+    tipoCategoria VARCHAR(50) NOT NULL,
+    nombreMaterial VARCHAR(100) NOT NULL,
+    unidadMedida VARCHAR(20) NOT NULL,
+    costoUnidad DECIMAL(18,2),
+    estado BIT NOT NULL DEFAULT 1
+);
+
+
+CREATE TABLE Usuarios (
+    idUsuario INT IDENTITY(1,1) PRIMARY KEY,
+    idRol INT NOT NULL,
+    nombreCompleto VARCHAR(150) NOT NULL,
+    nombreUsuario VARCHAR(50) NOT NULL UNIQUE,
+    contrasena VARCHAR(256) NOT NULL,
+    estado BIT NOT NULL DEFAULT 1,
+    CONSTRAINT FK_Usuarios_Roles FOREIGN KEY (idRol) REFERENCES Roles(idRol)
+);
+
+CREATE TABLE Receta (
+    idReceta INT IDENTITY(1,1) PRIMARY KEY,
+    idProducto INT NOT NULL,
+    idMaterial INT NOT NULL,
+    cantidadRequerida DECIMAL(18,4) NOT NULL,
+    costoUnidad DECIMAL(18,2),
+    CONSTRAINT FK_Receta_Productos FOREIGN KEY (idProducto) REFERENCES Productos(idProducto),
+    CONSTRAINT FK_Receta_Materiales FOREIGN KEY (idMaterial) REFERENCES Inventario_Materiales(idMaterial)
+);
+
+
+CREATE TABLE Pedidos (
+    idPedido INT IDENTITY(1,1) PRIMARY KEY,
+    idCliente INT NOT NULL,
+    idUsuario INT NOT NULL,
+    fechaPedido DATETIME NOT NULL DEFAULT GETDATE(),
+    estadoPedido VARCHAR(50) NOT NULL,
+    observaciones VARCHAR(MAX),
+    CONSTRAINT FK_Pedidos_Clientes FOREIGN KEY (idCliente) REFERENCES Clientes(idCliente),
+    CONSTRAINT FK_Pedidos_Usuarios FOREIGN KEY (idUsuario) REFERENCES Usuarios(idUsuario)
+);
+
+CREATE TABLE Detalle_Pedido (
+    idDetallePedido INT IDENTITY(1,1) PRIMARY KEY,
+    idPedido INT NOT NULL,
+    idProducto INT NOT NULL, 
+    tipoEmpaque VARCHAR(50),
+    cantidad INT NOT NULL,
+    CONSTRAINT FK_DetallePedido_Pedidos FOREIGN KEY (idPedido) REFERENCES Pedidos(idPedido),
+    CONSTRAINT FK_DetallePedido_Productos FOREIGN KEY (idProducto) REFERENCES Productos(idProducto)
+);
+
+CREATE TABLE Calculo_Insumos (
+    idCalculo INT IDENTITY(1,1) PRIMARY KEY,
+    idPedido INT NOT NULL,
+    idMaterial INT NOT NULL,
+    cantidadRequerida DECIMAL(18,4) NOT NULL,
+    CONSTRAINT FK_CalculoInsumos_Pedidos FOREIGN KEY (idPedido) REFERENCES Pedidos(idPedido),
+    CONSTRAINT FK_CalculoInsumos_Materiales FOREIGN KEY (idMaterial) REFERENCES Inventario_Materiales(idMaterial)
+);
