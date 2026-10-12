@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/ArizaCigarsApp/">
+    <Project Path="Ariza.csproj">
+      <BuildDependency Project="../Clasesb/Clases.csproj" />
+    </Project>
+  </Folder>
+  <Project Path="../Clasesb/Clases.csproj" Id="08709afa-6118-40be-aabc-d5730c8df0db" />
+</Solution>

@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginMockup.Clases
+namespace Clases.Clases
+
 {
-    internal class ClaseSesionUsuario
+    public class ClaseSesionUsuario
     {
         public static int idUsuario { get; set; }
         public static String NombreUsuario { get; set; } = string.Empty;

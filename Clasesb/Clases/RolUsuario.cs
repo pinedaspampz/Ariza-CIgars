@@ -4,7 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LoginMockup.Clases
+namespace Clases.Clases
+
 {
     public enum RolUsuario
     {
@@ -13,6 +14,5 @@ namespace LoginMockup.Clases
         Consultor,
         Gestor,
         Administrador
-
     }
 }
