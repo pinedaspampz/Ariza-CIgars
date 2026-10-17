@@ -22,16 +22,27 @@ namespace Clases.Clases
             Rol = RolUsuario.Invitado;
         }
 
-        public static void IniciarSesion(int id, string nombre, string nombreCompleto, string rolstring)
+        public static void IniciarSesion(
+     int id,
+     string nombre,
+     string nombreCompleto,
+     string rolstring)
         {
             idUsuario = id;
             NombreUsuario = nombre;
             NombreCompleto = nombreCompleto;
 
-            if (Enum.TryParse(rolstring, true, out RolUsuario rol))
+            string rolLimpio = rolstring.Trim();
+
+            if (Enum.TryParse(rolLimpio, true, out RolUsuario rol)
+                && Enum.IsDefined(typeof(RolUsuario), rol))
+            {
                 Rol = rol;
+            }
             else
+            {
                 Rol = RolUsuario.Nadie;
+            }
         }
 
         public static void Cerrarsesion()

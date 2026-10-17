@@ -67,5 +67,53 @@ namespace Clases.Clases
 
             return roles;
         }
+        public bool ExisteUsuario(string nombreUsuario)
+        {
+            ClaseConexion conexion = new ClaseConexion();
+
+            using (SqlConnection con = conexion.ObtenerConexion())
+            {
+                string sql = @"SELECT COUNT(*)
+                       FROM Usuarios
+                       WHERE nombreUsuario = @usuario";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@usuario", nombreUsuario);
+                    con.Open();
+
+                    int cantidad = (int)cmd.ExecuteScalar();
+                    return cantidad > 0;
+                }
+            }
+        }
+
+        public void RegistrarUsuario(
+            string nombreCompleto,
+            string nombreUsuario,
+            string contrasena,
+            int idRol)
+        {
+            ClaseConexion conexion = new ClaseConexion();
+
+            using (SqlConnection con = conexion.ObtenerConexion())
+            {
+                string sql = @"INSERT INTO Usuarios
+                       (nombreCompleto, nombreUsuario, contrasena, idRol, estado)
+                       VALUES
+                       (@nombreCompleto, @nombreUsuario, @contrasena, @idRol, 1)";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@nombreCompleto", nombreCompleto);
+                    cmd.Parameters.AddWithValue("@nombreUsuario", nombreUsuario);
+                    cmd.Parameters.AddWithValue("@contrasena", contrasena);
+                    cmd.Parameters.AddWithValue("@idRol", idRol);
+
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }
