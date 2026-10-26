@@ -1,8 +1,8 @@
-﻿
-using Ariza.MenuPrincipal;
+﻿using Ariza.MenuPrincipal;
 using Clases.Clases;
 using System;
 using System.Drawing;
+using System.Net.Mail;
 using System.Windows.Forms;
 
 namespace Ariza.Clientes
@@ -10,6 +10,7 @@ namespace Ariza.Clientes
     public partial class FrmClientes : Form
     {
         private int idClienteSeleccionado = 0;
+        private string nombreClienteSeleccionado = "";
 
         public FrmClientes()
         {
@@ -25,18 +26,21 @@ namespace Ariza.Clientes
             txtBuscarCliente.TextChanged += txtBuscarCliente_TextChanged;
             btnEliminarCliente.Click += btnEliminarCliente_Click;
 
-            // Asegurar que los controles de búsqueda sean visibles.
+            
+            dvgClientes.CellClick += dvgClientes_CellClick;
+
+           
             txtBuscarCliente.Visible = true;
             txtBuscarCliente.Enabled = true;
             btnBuscarCliente.Visible = true;
             btnBuscarCliente.Enabled = true;
 
-            // Evitar que queden detrás de otros controles.
+           
             txtBuscarCliente.BringToFront();
             btnBuscarCliente.BringToFront();
         }
 
-        private void FrmClientes_Load(object sender, EventArgs e)
+        private void FrmClientes_Load(object? sender, EventArgs e)
         {
             if (ClaseSesionUsuario.Rol == RolUsuario.Invitado ||
                 ClaseSesionUsuario.Rol == RolUsuario.Nadie)
@@ -49,19 +53,21 @@ namespace Ariza.Clientes
             CargarClientes();
         }
 
+        private void ConfigurarGrid()
+        {
+            dvgClientes.ReadOnly = true;
+            dvgClientes.AllowUserToAddRows = false;
+            dvgClientes.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dvgClientes.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+        }
+
         private void CargarClientes()
         {
             try
             {
                 ClaseClientes clientes = new ClaseClientes();
                 dvgClientes.DataSource = clientes.ObtenerClientes();
-
-                dvgClientes.ReadOnly = true;
-                dvgClientes.AllowUserToAddRows = false;
-                dvgClientes.SelectionMode =
-                    DataGridViewSelectionMode.FullRowSelect;
-                dvgClientes.AutoSizeColumnsMode =
-                    DataGridViewAutoSizeColumnsMode.Fill;
+                ConfigurarGrid();
             }
             catch (Exception ex)
             {
@@ -69,7 +75,52 @@ namespace Ariza.Clientes
             }
         }
 
-        private void btnGuardarCliente_Click(object sender, EventArgs e)
+        private void btnBuscarCliente_Click(object? sender, EventArgs e)
+        {
+            BuscarClientes();
+        }
+
+        private void txtBuscarCliente_TextChanged(object? sender, EventArgs e)
+        {
+            BuscarClientes();
+        }
+
+        private void BuscarClientes()
+        {
+            try
+            {
+           
+                LimpiarFormulario();
+
+                ClaseClientes clientes = new ClaseClientes();
+                dvgClientes.DataSource = clientes.BuscarClientes(
+                    txtBuscarCliente.Text.Trim());
+                ConfigurarGrid();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al buscar clientes: " + ex.Message);
+            }
+        }
+
+       
+        private void dvgClientes_CellClick(object? sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0) return; // clic en el encabezado
+
+            DataGridViewRow fila = dvgClientes.Rows[e.RowIndex];
+
+            idClienteSeleccionado = Convert.ToInt32(fila.Cells["ID"].Value);
+            nombreClienteSeleccionado = Convert.ToString(fila.Cells["Nombre completo"].Value) ?? "";
+
+            txtNombreCompleto.Text = nombreClienteSeleccionado;
+            txtTelefono.Text = Convert.ToString(fila.Cells["Teléfono"].Value);
+            txtCorreo.Text = Convert.ToString(fila.Cells["Correo"].Value);
+        }
+
+       
+
+        private void btnGuardarCliente_Click(object? sender, EventArgs e)
         {
             if (ClaseSesionUsuario.Rol != RolUsuario.Administrador &&
                 ClaseSesionUsuario.Rol != RolUsuario.Gestor)
@@ -78,34 +129,37 @@ namespace Ariza.Clientes
                 return;
             }
 
+            if (idClienteSeleccionado != 0)
+            {
+                MessageBox.Show(
+                    "Hay un cliente seleccionado. Pulsa Limpiar para registrar uno nuevo " +
+                    "o Guardar cambios para actualizarlo.");
+                return;
+            }
+
             string nombre = txtNombreCompleto.Text.Trim();
             string telefono = txtTelefono.Text.Trim();
             string correo = txtCorreo.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                MessageBox.Show("El nombre completo es obligatorio.");
-                txtNombreCompleto.Focus();
+            if (!ValidarCampos(nombre, telefono, correo))
                 return;
-            }
-
-            if (nombre.Length > 150 ||
-                telefono.Length > 20 ||
-                correo.Length > 100)
-            {
-                MessageBox.Show("Uno de los campos supera la longitud permitida.");
-                return;
-            }
 
             try
             {
                 ClaseClientes clientes = new ClaseClientes();
-                clientes.RegistrarCliente(nombre, telefono, correo);
+                int nuevoId = clientes.RegistrarCliente(nombre, telefono, correo);
 
-                MessageBox.Show("Cliente registrado correctamente.");
-
-                LimpiarCampos();
-                CargarClientes();
+                if (nuevoId > 0)
+                {
+                    MessageBox.Show(
+                        "Cliente registrado correctamente. ID asignado: " + nuevoId);
+                    LimpiarCampos();
+                    CargarClientes();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo registrar el cliente.");
+                }
             }
             catch (Exception ex)
             {
@@ -113,31 +167,22 @@ namespace Ariza.Clientes
             }
         }
 
-        private void btnEditarCliente_Click(object sender, EventArgs e)
+        // ---------- Editar / actualizar ----------
+
+        private void btnEditarCliente_Click(object? sender, EventArgs e)
         {
-            if (dvgClientes.CurrentRow == null ||
-                dvgClientes.CurrentRow.IsNewRow)
+            if (idClienteSeleccionado == 0)
             {
                 MessageBox.Show("Selecciona un cliente de la tabla.");
                 return;
             }
 
-            idClienteSeleccionado = Convert.ToInt32(
-                dvgClientes.CurrentRow.Cells["ID"].Value);
-
-            txtNombreCompleto.Text = Convert.ToString(
-                dvgClientes.CurrentRow.Cells["Nombre completo"].Value);
-
-            txtTelefono.Text = Convert.ToString(
-                dvgClientes.CurrentRow.Cells["Teléfono"].Value);
-
-            txtCorreo.Text = Convert.ToString(
-                dvgClientes.CurrentRow.Cells["Correo"].Value);
-
+            // Los datos ya se cargaron al seleccionar la fila
+            txtNombreCompleto.Focus();
             MessageBox.Show("Modifica los datos y pulsa Guardar cambios.");
         }
 
-        private void btnActualizarCliente_Click(object sender, EventArgs e)
+        private void btnActualizarCliente_Click(object? sender, EventArgs e)
         {
             if (ClaseSesionUsuario.Rol != RolUsuario.Administrador &&
                 ClaseSesionUsuario.Rol != RolUsuario.Gestor)
@@ -148,7 +193,7 @@ namespace Ariza.Clientes
 
             if (idClienteSeleccionado == 0)
             {
-                MessageBox.Show("Primero selecciona un cliente y pulsa Editar cliente.");
+                MessageBox.Show("Primero selecciona un cliente de la tabla.");
                 return;
             }
 
@@ -156,35 +201,29 @@ namespace Ariza.Clientes
             string telefono = txtTelefono.Text.Trim();
             string correo = txtCorreo.Text.Trim();
 
-            if (string.IsNullOrWhiteSpace(nombre))
-            {
-                MessageBox.Show("El nombre completo es obligatorio.");
+            if (!ValidarCampos(nombre, telefono, correo))
                 return;
-            }
-
-            if (nombre.Length > 150 ||
-                telefono.Length > 20 ||
-                correo.Length > 100)
-            {
-                MessageBox.Show("Uno de los campos supera la longitud permitida.");
-                return;
-            }
 
             try
             {
                 ClaseClientes clientes = new ClaseClientes();
 
-                clientes.ActualizarCliente(
+                bool actualizado = clientes.ActualizarCliente(
                     idClienteSeleccionado,
                     nombre,
                     telefono,
                     correo);
 
-                MessageBox.Show("Cliente actualizado correctamente.");
-
-                idClienteSeleccionado = 0;
-                LimpiarCampos();
-                CargarClientes();
+                if (actualizado)
+                {
+                    MessageBox.Show("Cliente actualizado correctamente.");
+                    LimpiarCampos();
+                    CargarClientes();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo actualizar el cliente.");
+                }
             }
             catch (Exception ex)
             {
@@ -192,60 +231,8 @@ namespace Ariza.Clientes
             }
         }
 
-        private void btnBuscarCliente_Click(object sender, EventArgs e)
-        {
-            BuscarClientes();
-        }
 
-        private void txtBuscarCliente_TextChanged(object sender, EventArgs e)
-        {
-            BuscarClientes();
-        }
-
-        private void BuscarClientes()
-        {
-            try
-            {
-                ClaseClientes clientes = new ClaseClientes();
-
-                dvgClientes.DataSource = clientes.BuscarClientes(
-                    txtBuscarCliente.Text.Trim());
-
-                dvgClientes.ReadOnly = true;
-                dvgClientes.AllowUserToAddRows = false;
-                dvgClientes.SelectionMode =
-                    DataGridViewSelectionMode.FullRowSelect;
-                dvgClientes.AutoSizeColumnsMode =
-                    DataGridViewAutoSizeColumnsMode.Fill;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al buscar clientes: " + ex.Message);
-            }
-        }
-
-        private void btnLimpiar_Click(object sender, EventArgs e)
-        {
-            LimpiarCampos();
-        }
-
-        private void LimpiarCampos()
-        {
-            txtNombreCompleto.Clear();
-            txtTelefono.Clear();
-            txtCorreo.Clear();
-            txtNombreCompleto.Focus();
-            idClienteSeleccionado = 0;
-        }
-
-        private void btnMenuPrincpal_Click(object sender, EventArgs e)
-        {
-            FrmMenuPrincipal frm = new FrmMenuPrincipal();
-            frm.Show();
-            Hide();
-        }
-    
-    private void btnEliminarCliente_Click(object sender, EventArgs e)
+        private void btnEliminarCliente_Click(object? sender, EventArgs e)
         {
             if (ClaseSesionUsuario.Rol != RolUsuario.Administrador)
             {
@@ -253,21 +240,14 @@ namespace Ariza.Clientes
                 return;
             }
 
-            if (dvgClientes.CurrentRow == null ||
-                dvgClientes.CurrentRow.IsNewRow)
+            if (idClienteSeleccionado == 0)
             {
                 MessageBox.Show("Selecciona un cliente de la tabla.");
                 return;
             }
 
-            int idCliente = Convert.ToInt32(
-                dvgClientes.CurrentRow.Cells["ID"].Value);
-
-            string nombre = Convert.ToString(
-                dvgClientes.CurrentRow.Cells["Nombre completo"].Value);
-
             DialogResult respuesta = MessageBox.Show(
-                $"¿Seguro que deseas eliminar al cliente {nombre}?",
+                $"¿Seguro que deseas eliminar al cliente {nombreClienteSeleccionado}?",
                 "Confirmar eliminación",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -278,16 +258,18 @@ namespace Ariza.Clientes
             try
             {
                 ClaseClientes clientes = new ClaseClientes();
-                clientes.EliminarCliente(idCliente);
+                bool eliminado = clientes.EliminarCliente(idClienteSeleccionado);
 
-                MessageBox.Show("Cliente eliminado correctamente.");
-
-                idClienteSeleccionado = 0;
-                txtNombreCompleto.Clear();
-                txtTelefono.Clear();
-                txtCorreo.Clear();
-
-                CargarClientes();
+                if (eliminado)
+                {
+                    MessageBox.Show("Cliente eliminado correctamente.");
+                    LimpiarCampos();
+                    CargarClientes();
+                }
+                else
+                {
+                    MessageBox.Show("No se pudo eliminar el cliente.");
+                }
             }
             catch (Exception ex)
             {
@@ -297,6 +279,66 @@ namespace Ariza.Clientes
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
             }
+        }
+
+        private bool ValidarCampos(string nombre, string telefono, string correo)
+        {
+            if (string.IsNullOrWhiteSpace(nombre))
+            {
+                MessageBox.Show("El nombre completo es obligatorio.");
+                txtNombreCompleto.Focus();
+                return false;
+            }
+
+            if (nombre.Length > 150 || telefono.Length > 20 || correo.Length > 100)
+            {
+                MessageBox.Show("Uno de los campos supera la longitud permitida.");
+                return false;
+            }
+
+            
+            if (correo != "" && !CorreoValido(correo))
+            {
+                MessageBox.Show("El formato del correo no es válido.");
+                txtCorreo.Focus();
+                return false;
+            }
+
+            return true;
+        }
+
+        private static bool CorreoValido(string correo)
+        {
+            return MailAddress.TryCreate(correo, out MailAddress? direccion)
+                   && direccion.Address == correo;
+        }
+
+        private void btnLimpiar_Click(object? sender, EventArgs e)
+        {
+            LimpiarCampos();
+        }
+
+       
+        private void LimpiarFormulario()
+        {
+            txtNombreCompleto.Clear();
+            txtTelefono.Clear();
+            txtCorreo.Clear();
+            idClienteSeleccionado = 0;
+            nombreClienteSeleccionado = "";
+        }
+
+        private void LimpiarCampos()
+        {
+            LimpiarFormulario();
+            txtNombreCompleto.Focus();
+        }
+
+        private void btnMenuPrincpal_Click(object? sender, EventArgs e)
+        {
+            FrmMenuPrincipal frm = new FrmMenuPrincipal();
+            frm.Show();
+            Hide();
         }
     }
 }

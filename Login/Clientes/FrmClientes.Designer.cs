@@ -2,9 +2,7 @@
 {
     partial class FrmClientes
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
+        
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
@@ -42,7 +40,6 @@
             btnEditarCliente = new Button();
             btnActualizarCliente = new Button();
             btnBuscarCliente = new Button();
-            button2 = new Button();
             txtBuscarCliente = new TextBox();
             btnEliminarCliente = new Button();
             ((System.ComponentModel.ISupportInitialize)dvgClientes).BeginInit();
@@ -62,6 +59,7 @@
             // txtNombreCompleto
             // 
             txtNombreCompleto.Location = new Point(44, 97);
+            txtNombreCompleto.MaxLength = 150;
             txtNombreCompleto.Name = "txtNombreCompleto";
             txtNombreCompleto.Size = new Size(217, 27);
             txtNombreCompleto.TabIndex = 1;
@@ -69,16 +67,18 @@
             // txtCorreo
             // 
             txtCorreo.Location = new Point(44, 256);
+            txtCorreo.MaxLength = 100;
             txtCorreo.Name = "txtCorreo";
             txtCorreo.Size = new Size(217, 27);
-            txtCorreo.TabIndex = 2;
+            txtCorreo.TabIndex = 3;
             // 
             // txtTelefono
             // 
             txtTelefono.Location = new Point(44, 164);
+            txtTelefono.MaxLength = 20;
             txtTelefono.Name = "txtTelefono";
             txtTelefono.Size = new Size(217, 27);
-            txtTelefono.TabIndex = 3;
+            txtTelefono.TabIndex = 2;
             // 
             // btnGuardarCliente
             // 
@@ -115,7 +115,6 @@
             label1.Size = new Size(134, 20);
             label1.TabIndex = 7;
             label1.Text = "Nombre Completo";
-            label1.Click += label1_Click;
             // 
             // label2
             // 
@@ -172,28 +171,19 @@
             btnBuscarCliente.Text = "Buscar Cliente";
             btnBuscarCliente.UseVisualStyleBackColor = true;
             // 
-            // button2
-            // 
-            button2.Location = new Point(692, 522);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 29);
-            button2.TabIndex = 14;
-            button2.Text = "Buscar";
-            button2.UseVisualStyleBackColor = true;
-            // 
             // txtBuscarCliente
             // 
             txtBuscarCliente.Location = new Point(680, 422);
             txtBuscarCliente.Name = "txtBuscarCliente";
             txtBuscarCliente.Size = new Size(125, 27);
-            txtBuscarCliente.TabIndex = 15;
+            txtBuscarCliente.TabIndex = 14;
             // 
             // btnEliminarCliente
             // 
             btnEliminarCliente.Location = new Point(640, 220);
             btnEliminarCliente.Name = "btnEliminarCliente";
             btnEliminarCliente.Size = new Size(177, 29);
-            btnEliminarCliente.TabIndex = 16;
+            btnEliminarCliente.TabIndex = 15;
             btnEliminarCliente.Tag = "";
             btnEliminarCliente.Text = "Eliminar Cliente";
             btnEliminarCliente.UseVisualStyleBackColor = true;
@@ -205,7 +195,6 @@
             ClientSize = new Size(914, 600);
             Controls.Add(btnEliminarCliente);
             Controls.Add(txtBuscarCliente);
-            Controls.Add(button2);
             Controls.Add(btnBuscarCliente);
             Controls.Add(btnActualizarCliente);
             Controls.Add(btnEditarCliente);
@@ -241,17 +230,10 @@
         private Label label2;
         private Label label3;
         private Label label4;
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-            // Puedes dejarlo vacío si no necesitas lógica específica
-        }
         private Button btnEditarCliente;
         private Button btnActualizarCliente;
         private Button btnBuscarCliente;
-        private Button button2;
         private TextBox txtBuscarCliente;
-        private Button button1;
         private Button btnEliminarCliente;
     }
 }
