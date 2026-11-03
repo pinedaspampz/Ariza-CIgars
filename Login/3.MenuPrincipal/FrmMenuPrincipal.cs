@@ -1,10 +1,11 @@
 ﻿
-using System;
-using System.Windows.Forms;
 using Ariza.Clientes;
 using Ariza.Login;
 using Ariza.Usuarios;
 using Clases.Clases;
+using System;
+using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Ariza.MenuPrincipal
 {
@@ -14,6 +15,7 @@ namespace Ariza.MenuPrincipal
         {
             InitializeComponent();
             AplicarPermisos();
+            toolTip1.SetToolTip(btnUsuarios, "Abre la lista de usuarios");
         }
 
         private void AplicarPermisos()
@@ -76,6 +78,31 @@ namespace Ariza.MenuPrincipal
             FrmClientes frm = new FrmClientes();
             frm.Show();
             this.Hide();
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FrmMenuPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolTip1_Popup(object sender, PopupEventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

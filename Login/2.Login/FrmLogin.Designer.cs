@@ -45,7 +45,7 @@ partial class FrmLogin
         // 
         // panel1
         // 
-        panel1.BackColor = Color.FromArgb(74, 93, 115);
+        panel1.BackColor = Color.FromArgb(234, 220, 185);
         panel1.Location = new Point(1, 1);
         panel1.Name = "panel1";
         panel1.Size = new Size(218, 625);
@@ -63,9 +63,12 @@ partial class FrmLogin
         // 
         // pictureBox1
         // 
-        pictureBox1.Location = new Point(3, 26);
+        pictureBox1.BackColor = Color.FromArgb(234, 220, 185);
+        pictureBox1.Image = Properties.Resources.arizat;
+        pictureBox1.Location = new Point(19, 11);
         pictureBox1.Name = "pictureBox1";
-        pictureBox1.Size = new Size(144, 97);
+        pictureBox1.Size = new Size(204, 150);
+        pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
         pictureBox1.TabIndex = 3;
         pictureBox1.TabStop = false;
         // 
@@ -80,6 +83,7 @@ partial class FrmLogin
         // 
         txtclave.Location = new Point(408, 300);
         txtclave.Name = "txtclave";
+        txtclave.PasswordChar = '*';
         txtclave.Size = new Size(228, 23);
         txtclave.TabIndex = 4;
         // 
@@ -95,12 +99,12 @@ partial class FrmLogin
         // 
         // panel2
         // 
-        panel2.BackColor = Color.FromArgb(74, 93, 115);
+        panel2.BackColor = Color.FromArgb(234, 220, 185);
         panel2.Controls.Add(label1);
         panel2.Controls.Add(pictureBox1);
-        panel2.Location = new Point(12, 1);
+        panel2.Location = new Point(-7, 1);
         panel2.Name = "panel2";
-        panel2.Size = new Size(903, 151);
+        panel2.Size = new Size(922, 174);
         panel2.TabIndex = 2;
         // 
         // label2
