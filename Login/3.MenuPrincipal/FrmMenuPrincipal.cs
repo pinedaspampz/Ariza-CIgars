@@ -1,11 +1,11 @@
-﻿
+﻿using Ariza.CalculoInsumos;
 using Ariza.Clientes;
 using Ariza.Login;
 using Ariza.Usuarios;
 using Clases.Clases;
 using System;
+using System.Drawing;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Ariza.MenuPrincipal
 {
@@ -15,25 +15,72 @@ namespace Ariza.MenuPrincipal
         {
             InitializeComponent();
             AplicarPermisos();
-            toolTip1.SetToolTip(btnUsuarios, "Abre la lista de usuarios");
+
+            toolTip1.SetToolTip(
+                btnUsuarios,
+                "Abre la lista de usuarios"
+            );
+
+            var btnCalculoInsumos = new Button
+            {
+                Name = "btnCalculoInsumos",
+                Text = "Cálculo de insumos",
+                Size = new Size(
+                    btnClientes.Width,
+                    pictureBox2.Height
+                ),
+                Location = new Point(
+                    btnClientes.Left,
+                    pictureBox2.Top
+                ),
+                FlatStyle = FlatStyle.Flat,
+                Cursor = Cursors.Hand,
+                TabIndex = btnClientes.TabIndex + 1
+            };
+
+            btnCalculoInsumos.FlatAppearance.MouseDownBackColor =
+                Color.FromArgb(234, 220, 185);
+
+            btnCalculoInsumos.FlatAppearance.MouseOverBackColor =
+                Color.FromArgb(217, 198, 155);
+
+            btnCalculoInsumos.Click += btnCalculoInsumos_Click;
+
+            Controls.Add(btnCalculoInsumos);
+            btnCalculoInsumos.BringToFront();
+
+            toolTip1.SetToolTip(
+                btnCalculoInsumos,
+                "Abre el cálculo de insumos"
+            );
         }
 
         private void AplicarPermisos()
         {
-            // Administrador: acceso completo a estas opciones.
+            // Administrador: acceso a Usuarios.
             btnUsuarios.Visible =
                 ClaseSesionUsuario.Rol == RolUsuario.Administrador;
 
-            // Administrador, Gestor y Consultor pueden acceder a Clientes.
+            // Administrador, Gestor y Consultor: acceso a Clientes.
             btnClientes.Visible =
                 ClaseSesionUsuario.Rol == RolUsuario.Administrador ||
                 ClaseSesionUsuario.Rol == RolUsuario.Gestor ||
                 ClaseSesionUsuario.Rol == RolUsuario.Consultor;
         }
 
+        private void btnCalculoInsumos_Click(object sender, EventArgs e)
+        {
+            using (var formulario = new FrmCalculoInsumos())
+            {
+                formulario.StartPosition =
+                    FormStartPosition.CenterParent;
+
+                formulario.ShowDialog(this);
+            }
+        }
+
         private void btnUsuarios_Click(object sender, EventArgs e)
         {
-            // Comprobar permisos antes de abrir el formulario.
             if (ClaseSesionUsuario.Rol != RolUsuario.Administrador)
             {
                 MessageBox.Show(
@@ -42,6 +89,7 @@ namespace Ariza.MenuPrincipal
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+
                 return;
             }
 
@@ -61,7 +109,6 @@ namespace Ariza.MenuPrincipal
 
         private void btnClientes_Click(object sender, EventArgs e)
         {
-            // Comprobar permisos antes de abrir el formulario.
             if (ClaseSesionUsuario.Rol != RolUsuario.Administrador &&
                 ClaseSesionUsuario.Rol != RolUsuario.Gestor &&
                 ClaseSesionUsuario.Rol != RolUsuario.Consultor)
@@ -72,6 +119,7 @@ namespace Ariza.MenuPrincipal
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Warning
                 );
+
                 return;
             }
 
@@ -82,27 +130,22 @@ namespace Ariza.MenuPrincipal
 
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
-
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
-
         }
 
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
-
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
     }
 }
