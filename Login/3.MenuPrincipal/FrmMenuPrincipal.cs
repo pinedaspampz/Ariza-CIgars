@@ -2,6 +2,7 @@
 using Ariza.Clientes;
 using Ariza.Login;
 using Ariza.Usuarios;
+using Ariza.Inventario;
 using Clases.Clases;
 using System;
 using System.Drawing;
@@ -15,6 +16,10 @@ namespace Ariza.MenuPrincipal
         {
             InitializeComponent();
             AplicarPermisos();
+            btnInventario.Visible = true;
+            btnInventario.Enabled = true;
+            btnInventario.BringToFront();
+            btnInventario.Click += btnInventario_Click;
 
             toolTip1.SetToolTip(
                 btnUsuarios,
@@ -66,6 +71,7 @@ namespace Ariza.MenuPrincipal
                 ClaseSesionUsuario.Rol == RolUsuario.Administrador ||
                 ClaseSesionUsuario.Rol == RolUsuario.Gestor ||
                 ClaseSesionUsuario.Rol == RolUsuario.Consultor;
+            btnInventario.Visible = true;
         }
 
         private void btnCalculoInsumos_Click(object sender, EventArgs e)
@@ -128,6 +134,18 @@ namespace Ariza.MenuPrincipal
             this.Hide();
         }
 
+
+        private void btnInventario_Click(object sender, EventArgs e)
+        {
+            using (FrmInventario formulario = new FrmInventario())
+            {
+                formulario.StartPosition = FormStartPosition.CenterParent;
+                formulario.ShowDialog(this);
+            }
+        }
+
+
+
         private void panel2_Paint(object sender, PaintEventArgs e)
         {
         }
@@ -138,8 +156,14 @@ namespace Ariza.MenuPrincipal
 
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
-        }
+           
 
+            btnInventario.Visible = true;
+            btnInventario.Enabled = true;
+            btnInventario.Location = new Point(600, 350);
+            btnInventario.Size = new Size(128, 67);
+            btnInventario.BringToFront();
+        }
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
         }

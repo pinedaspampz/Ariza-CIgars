@@ -34,17 +34,19 @@
             // 
             // PanelContenido
             // 
-            PanelContenido.Location = new Point(293, 150);
+            PanelContenido.Location = new Point(335, 200);
+            PanelContenido.Margin = new Padding(3, 4, 3, 4);
             PanelContenido.Name = "PanelContenido";
-            PanelContenido.Size = new Size(200, 100);
+            PanelContenido.Size = new Size(229, 133);
             PanelContenido.TabIndex = 0;
             // 
             // FrmPrincipal
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(914, 600);
             Controls.Add(PanelContenido);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "FrmPrincipal";
             Text = "ARIZA ";
             Load += FrmPrincipal_Load;
