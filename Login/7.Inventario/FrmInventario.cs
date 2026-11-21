@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Ariza.MenuPrincipal;
+using Clases.Clases;
+using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Clases.Clases;
-using System;
 using System.Windows.Forms;
 
 namespace Ariza.Inventario
@@ -323,6 +324,12 @@ namespace Ariza.Inventario
             }
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmMenuPrincipal frm = new FrmMenuPrincipal();
+            frm.Show();
+            Hide();
+        }
     }
 
 }

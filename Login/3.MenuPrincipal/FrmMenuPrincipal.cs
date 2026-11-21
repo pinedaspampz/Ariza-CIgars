@@ -7,6 +7,7 @@ using Clases.Clases;
 using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Ariza._8.Pedidos;
 
 namespace Ariza.MenuPrincipal
 {
@@ -156,7 +157,7 @@ namespace Ariza.MenuPrincipal
 
         private void FrmMenuPrincipal_Load(object sender, EventArgs e)
         {
-           
+
 
             btnInventario.Visible = true;
             btnInventario.Enabled = true;
@@ -170,6 +171,13 @@ namespace Ariza.MenuPrincipal
 
         private void label1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            FrmPedidos frm = new FrmPedidos();
+            frm.Show();
+            this.Hide();
         }
     }
 }
