@@ -11,6 +11,68 @@ namespace Clases.Clases
 {
     public class ClaseUsuarios
     {
+        public void ActualizarUsuario(
+    int idUsuario,
+    string nombreCompleto,
+    string nombreUsuario,
+    string contrasena,
+    int idRol)
+        {
+            ClaseConexion conexion = new ClaseConexion();
+
+            using (SqlConnection con = conexion.ObtenerConexion())
+            {
+                string sql = @"
+            UPDATE Usuarios
+            SET nombreCompleto = @nombreCompleto,
+                nombreUsuario = @nombreUsuario,
+                idRol = @idRol,
+                contrasena = CASE
+                    WHEN @contrasena = '' THEN contrasena
+                    ELSE @contrasena
+                END
+            WHERE idUsuario = @idUsuario;";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    cmd.Parameters.AddWithValue("@nombreCompleto", nombreCompleto);
+                    cmd.Parameters.AddWithValue("@nombreUsuario", nombreUsuario);
+                    cmd.Parameters.AddWithValue("@contrasena", contrasena);
+                    cmd.Parameters.AddWithValue("@idRol", idRol);
+
+                    con.Open();
+
+                    if (cmd.ExecuteNonQuery() != 1)
+                    {
+                        throw new InvalidOperationException(
+                            "El usuario ya no existe. Actualiza la lista.");
+                    }
+                }
+            }
+        }
+
+        public void EliminarUsuario(int idUsuario)
+        {
+            ClaseConexion conexion = new ClaseConexion();
+
+            using (SqlConnection con = conexion.ObtenerConexion())
+            {
+                string sql = "DELETE FROM Usuarios WHERE idUsuario = @idUsuario;";
+
+                using (SqlCommand cmd = new SqlCommand(sql, con))
+                {
+                    cmd.Parameters.AddWithValue("@idUsuario", idUsuario);
+                    con.Open();
+
+                    if (cmd.ExecuteNonQuery() != 1)
+                    {
+                        throw new InvalidOperationException(
+                            "El usuario ya no existe. Actualiza la lista.");
+                    }
+                }
+            }
+        }
         public DataTable ObtenerUsuarios()
         {
             DataTable tabla = new DataTable();
