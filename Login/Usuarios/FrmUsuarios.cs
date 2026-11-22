@@ -18,6 +18,87 @@ namespace Ariza.Usuarios
         public FrmUsuarios()
         {
             InitializeComponent();
+            Color beigeAriza = Color.FromArgb(234, 220, 185);
+            BackColor = Color.FromArgb(248, 246, 241);
+
+            // Encabezado con el mismo logo y color del menú principal.
+            Panel encabezado = new Panel
+            {
+                BackColor = beigeAriza,
+                Dock = DockStyle.Top,
+                Height = 108
+            };
+
+            PictureBox logoAriza = new PictureBox
+            {
+                Image = Properties.Resources.arizat,
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Location = new Point(30, 8),
+                Size = new Size(78, 92)
+            };
+
+            Label marcaAriza = new Label
+            {
+                Text = "ARIZA",
+                AutoSize = false,
+                TextAlign = ContentAlignment.MiddleCenter,
+                Font = new Font("Segoe UI", 34F, FontStyle.Bold),
+                Bounds = new Rectangle(220, 0, 474, 108),
+                Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right
+            };
+
+            encabezado.Controls.Add(logoAriza);
+            encabezado.Controls.Add(marcaAriza);
+            Controls.Add(encabezado);
+
+            encabezado.Controls.Add(btnMenuPrincipal);
+            btnMenuPrincipal.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            btnMenuPrincipal.Size = new Size(160, 38);
+            btnMenuPrincipal.Location = new Point(encabezado.ClientSize.Width - 180, 35);
+            btnMenuPrincipal.BringToFront();
+            marcaAriza.Anchor = AnchorStyles.Top | AnchorStyles.Left;
+            marcaAriza.Left = (encabezado.ClientSize.Width - marcaAriza.Width) / 2;
+
+            encabezado.Resize += (sender, e) =>
+            {
+                btnMenuPrincipal.Left = encabezado.ClientSize.Width - 180;
+                marcaAriza.Left = (encabezado.ClientSize.Width - marcaAriza.Width) / 2;
+            };
+
+            // Título y campos en dos columnas.
+            label1.Location = new Point(30, 125);
+            label1.Font = new Font("Segoe UI", 18F, FontStyle.Bold);
+
+            label2.Location = new Point(30, 176);
+            txtNombreCompleto.SetBounds(30, 200, 410, 28);
+
+            label3.Location = new Point(470, 176);
+            txtNombreUsuario.SetBounds(470, 200, 414, 28);
+
+            label4.Location = new Point(30, 238);
+            txtContrasena.SetBounds(30, 262, 410, 28);
+
+            Controls.Add(new Label
+            {
+                Text = "Rol",
+                AutoSize = true,
+                Location = new Point(470, 238)
+            });
+            cmbRoles.SetBounds(470, 262, 414, 28);
+
+            // Acciones alineadas entre el formulario y la tabla.
+            btnAgregarUsuario.SetBounds(30, 312, 206, 38);
+            btnGuardarUsuario.SetBounds(246, 312, 206, 38);
+            btnActualizarUsuario.SetBounds(462, 312, 206, 38);
+            btnEliminarUsuario.SetBounds(678, 312, 206, 38);
+
+            btnGuardarUsuario.UseVisualStyleBackColor = false;
+            btnGuardarUsuario.BackColor = beigeAriza;
+
+            DatosUsuarios.SetBounds(30, 370, 854, 200);
+            DatosUsuarios.Anchor = AnchorStyles.Top | AnchorStyles.Bottom |
+                                   AnchorStyles.Left | AnchorStyles.Right;
+            DatosUsuarios.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill; //posibles cambios hechos por mí persona
             this.Load += FrmUsuarios_Load;
             this.btnGuardarUsuario.Click += btnGuardarUsuario_Click;
         }
@@ -125,7 +206,21 @@ namespace Ariza.Usuarios
                 );
                 return;
             }
+            if (contrasena.Length < 8 ||
+            !System.Text.RegularExpressions.Regex.IsMatch(contrasena, @"\p{Lu}") ||
+            !System.Text.RegularExpressions.Regex.IsMatch(contrasena, @"\p{Ll}") ||
+            !System.Text.RegularExpressions.Regex.IsMatch(contrasena, @"[0-9]") ||
+            !System.Text.RegularExpressions.Regex.IsMatch(contrasena, @"[\p{P}\p{S}]"))
+            {
+                MessageBox.Show(
+                    "La contraseña debe tener al menos 8 caracteres, una mayúscula, " +
+                    "una minúscula, un número y un símbolo como !, @ o #.",
+                    "Contraseña inválida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
 
+                return;
+            }
             // Validar que se haya seleccionado un rol
             if (cmbRoles.SelectedValue == null ||
                 !int.TryParse(cmbRoles.SelectedValue.ToString(), out int idRol) ||

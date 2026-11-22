@@ -45,4 +45,9 @@ public partial class FrmLogin : Form
             MessageBox.Show("Error: " + ex.Message);
         }
     }
+
+    private void txtusuario_TextChanged(object sender, EventArgs e)
+    {
+
+    }
 }
