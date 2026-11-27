@@ -42,6 +42,7 @@
             pictureBox4 = new PictureBox();
             btnInventario = new Button();
             btnPedidos = new Button();
+            button1 = new Button();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
@@ -183,6 +184,7 @@
             btnInventario.TabIndex = 12;
             btnInventario.Text = "Materia Prima";
             btnInventario.UseVisualStyleBackColor = false;
+            btnInventario.Click += btnInventario_Click_1;
             // 
             // btnPedidos
             // 
@@ -198,11 +200,27 @@
             btnPedidos.UseVisualStyleBackColor = true;
             btnPedidos.Click += button1_Click;
             // 
+            // button1
+            // 
+            button1.BackColor = Color.Transparent;
+            button1.Cursor = Cursors.Hand;
+            button1.FlatAppearance.MouseDownBackColor = Color.FromArgb(234, 220, 185);
+            button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(217, 198, 155);
+            button1.FlatStyle = FlatStyle.Flat;
+            button1.Location = new Point(389, 331);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 46);
+            button1.TabIndex = 14;
+            button1.Text = "Insumos";
+            button1.UseVisualStyleBackColor = false;
+            button1.Click += button1_Click_1;
+            // 
             // FrmMenuPrincipal
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(746, 473);
+            Controls.Add(button1);
             Controls.Add(btnPedidos);
             Controls.Add(btnInventario);
             Controls.Add(pictureBox5);
@@ -241,5 +259,6 @@
         private PictureBox pictureBox4;
         private Button btnInventario;
         private Button btnPedidos;
+        private Button button1;
     }
 }

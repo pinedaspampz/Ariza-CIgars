@@ -26,39 +26,6 @@ namespace Ariza.MenuPrincipal
                 btnUsuarios,
                 "Abre la lista de usuarios"
             );
-
-            var btnCalculoInsumos = new Button
-            {
-                Name = "btnCalculoInsumos",
-                Text = "Cálculo de insumos",
-                Size = new Size(
-                    btnClientes.Width,
-                    pictureBox2.Height
-                ),
-                Location = new Point(
-                    btnClientes.Left,
-                    pictureBox2.Top
-                ),
-                FlatStyle = FlatStyle.Flat,
-                Cursor = Cursors.Hand,
-                TabIndex = btnClientes.TabIndex + 1
-            };
-
-            btnCalculoInsumos.FlatAppearance.MouseDownBackColor =
-                Color.FromArgb(234, 220, 185);
-
-            btnCalculoInsumos.FlatAppearance.MouseOverBackColor =
-                Color.FromArgb(217, 198, 155);
-
-            btnCalculoInsumos.Click += btnCalculoInsumos_Click;
-
-            Controls.Add(btnCalculoInsumos);
-            btnCalculoInsumos.BringToFront();
-
-            toolTip1.SetToolTip(
-                btnCalculoInsumos,
-                "Abre el cálculo de insumos"
-            );
         }
 
         private void AplicarPermisos()
@@ -138,11 +105,11 @@ namespace Ariza.MenuPrincipal
 
         private void btnInventario_Click(object sender, EventArgs e)
         {
-            using (FrmInventario formulario = new FrmInventario())
-            {
-                formulario.StartPosition = FormStartPosition.CenterParent;
-                formulario.ShowDialog(this);
-            }
+            FrmInventario frm = new FrmInventario();
+            frm.Show();
+            this.Hide();
+
+
         }
 
 
@@ -176,6 +143,18 @@ namespace Ariza.MenuPrincipal
         private void button1_Click(object sender, EventArgs e)
         {
             FrmPedidos frm = new FrmPedidos();
+            frm.Show();
+            this.Hide();
+        }
+
+        private void btnInventario_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button1_Click_1(object sender, EventArgs e)
+        {
+            FrmCalculoInsumos frm = new FrmCalculoInsumos();
             frm.Show();
             this.Hide();
         }
