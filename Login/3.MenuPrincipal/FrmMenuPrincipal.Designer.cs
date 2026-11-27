@@ -55,9 +55,10 @@
             // 
             btnCerrarSesion.BackColor = Color.FromArgb(234, 220, 185);
             btnCerrarSesion.ForeColor = SystemColors.ActiveCaptionText;
-            btnCerrarSesion.Location = new Point(639, 422);
+            btnCerrarSesion.Location = new Point(913, 703);
+            btnCerrarSesion.Margin = new Padding(4, 5, 4, 5);
             btnCerrarSesion.Name = "btnCerrarSesion";
-            btnCerrarSesion.Size = new Size(100, 44);
+            btnCerrarSesion.Size = new Size(143, 73);
             btnCerrarSesion.TabIndex = 0;
             btnCerrarSesion.Text = "Cerrar Sesion";
             btnCerrarSesion.UseVisualStyleBackColor = false;
@@ -67,9 +68,10 @@
             // 
             pictureBox1.BackColor = Color.FromArgb(234, 220, 185);
             pictureBox1.Image = Properties.Resources.arizat;
-            pictureBox1.Location = new Point(3, 6);
+            pictureBox1.Location = new Point(4, 10);
+            pictureBox1.Margin = new Padding(4, 5, 4, 5);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(156, 150);
+            pictureBox1.Size = new Size(223, 250);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 6;
             pictureBox1.TabStop = false;
@@ -82,9 +84,10 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Arial", 69F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label1.Location = new Point(221, 23);
+            label1.Location = new Point(316, 38);
+            label1.Margin = new Padding(4, 0, 4, 0);
             label1.Name = "label1";
-            label1.Size = new Size(319, 107);
+            label1.Size = new Size(481, 159);
             label1.TabIndex = 3;
             label1.Text = "ARIZA";
             label1.Click += label1_Click;
@@ -94,9 +97,10 @@
             panel2.BackColor = Color.FromArgb(234, 220, 185);
             panel2.Controls.Add(label1);
             panel2.Controls.Add(pictureBox1);
-            panel2.Location = new Point(-3, 3);
+            panel2.Location = new Point(-4, 5);
+            panel2.Margin = new Padding(4, 5, 4, 5);
             panel2.Name = "panel2";
-            panel2.Size = new Size(772, 159);
+            panel2.Size = new Size(1103, 265);
             panel2.TabIndex = 5;
             // 
             // btnUsuarios
@@ -105,9 +109,10 @@
             btnUsuarios.FlatAppearance.MouseDownBackColor = Color.FromArgb(234, 220, 185);
             btnUsuarios.FlatAppearance.MouseOverBackColor = Color.FromArgb(217, 198, 155);
             btnUsuarios.FlatStyle = FlatStyle.Flat;
-            btnUsuarios.Location = new Point(389, 198);
+            btnUsuarios.Location = new Point(556, 330);
+            btnUsuarios.Margin = new Padding(4, 5, 4, 5);
             btnUsuarios.Name = "btnUsuarios";
-            btnUsuarios.Size = new Size(112, 50);
+            btnUsuarios.Size = new Size(160, 83);
             btnUsuarios.TabIndex = 1;
             btnUsuarios.Text = "Usuarios";
             btnUsuarios.UseVisualStyleBackColor = false;
@@ -120,9 +125,10 @@
             btnClientes.FlatAppearance.MouseDownBackColor = Color.FromArgb(234, 220, 185);
             btnClientes.FlatAppearance.MouseOverBackColor = Color.FromArgb(217, 198, 155);
             btnClientes.FlatStyle = FlatStyle.Flat;
-            btnClientes.Location = new Point(389, 264);
+            btnClientes.Location = new Point(556, 440);
+            btnClientes.Margin = new Padding(4, 5, 4, 5);
             btnClientes.Name = "btnClientes";
-            btnClientes.Size = new Size(112, 46);
+            btnClientes.Size = new Size(160, 77);
             btnClientes.TabIndex = 2;
             btnClientes.Text = "Clientes";
             btnClientes.UseVisualStyleBackColor = false;
@@ -132,9 +138,10 @@
             // 
             pictureBox5.BackColor = Color.Transparent;
             pictureBox5.Image = Properties.Resources.pedidost;
-            pictureBox5.Location = new Point(294, 405);
+            pictureBox5.Location = new Point(420, 675);
+            pictureBox5.Margin = new Padding(4, 5, 4, 5);
             pictureBox5.Name = "pictureBox5";
-            pictureBox5.Size = new Size(81, 50);
+            pictureBox5.Size = new Size(116, 83);
             pictureBox5.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox5.TabIndex = 11;
             pictureBox5.TabStop = false;
@@ -143,9 +150,10 @@
             // 
             pictureBox2.BackColor = Color.Transparent;
             pictureBox2.Image = Properties.Resources.purot;
-            pictureBox2.Location = new Point(294, 331);
+            pictureBox2.Location = new Point(420, 552);
+            pictureBox2.Margin = new Padding(4, 5, 4, 5);
             pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(81, 50);
+            pictureBox2.Size = new Size(116, 83);
             pictureBox2.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox2.TabIndex = 10;
             pictureBox2.TabStop = false;
@@ -154,9 +162,10 @@
             // 
             pictureBox3.BackColor = Color.Transparent;
             pictureBox3.Image = Properties.Resources.clientes;
-            pictureBox3.Location = new Point(297, 260);
+            pictureBox3.Location = new Point(424, 433);
+            pictureBox3.Margin = new Padding(4, 5, 4, 5);
             pictureBox3.Name = "pictureBox3";
-            pictureBox3.Size = new Size(75, 50);
+            pictureBox3.Size = new Size(107, 83);
             pictureBox3.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox3.TabIndex = 8;
             pictureBox3.TabStop = false;
@@ -165,9 +174,10 @@
             // 
             pictureBox4.BackColor = Color.Transparent;
             pictureBox4.Image = Properties.Resources.usuariost;
-            pictureBox4.Location = new Point(291, 198);
+            pictureBox4.Location = new Point(416, 330);
+            pictureBox4.Margin = new Padding(4, 5, 4, 5);
             pictureBox4.Name = "pictureBox4";
-            pictureBox4.Size = new Size(81, 50);
+            pictureBox4.Size = new Size(116, 83);
             pictureBox4.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox4.TabIndex = 9;
             pictureBox4.TabStop = false;
@@ -178,13 +188,13 @@
             btnInventario.FlatAppearance.MouseDownBackColor = Color.FromArgb(234, 220, 185);
             btnInventario.FlatAppearance.MouseOverBackColor = Color.FromArgb(217, 198, 155);
             btnInventario.FlatStyle = FlatStyle.Flat;
-            btnInventario.Location = new Point(612, 198);
+            btnInventario.Location = new Point(556, 786);
+            btnInventario.Margin = new Padding(4, 5, 4, 5);
             btnInventario.Name = "btnInventario";
-            btnInventario.Size = new Size(112, 50);
+            btnInventario.Size = new Size(160, 83);
             btnInventario.TabIndex = 12;
             btnInventario.Text = "Materia Prima";
             btnInventario.UseVisualStyleBackColor = false;
-            btnInventario.Click += btnInventario_Click_1;
             // 
             // btnPedidos
             // 
@@ -192,9 +202,10 @@
             btnPedidos.FlatAppearance.MouseDownBackColor = Color.FromArgb(234, 220, 185);
             btnPedidos.FlatAppearance.MouseOverBackColor = Color.FromArgb(217, 198, 155);
             btnPedidos.FlatStyle = FlatStyle.Flat;
-            btnPedidos.Location = new Point(389, 405);
+            btnPedidos.Location = new Point(556, 675);
+            btnPedidos.Margin = new Padding(4, 5, 4, 5);
             btnPedidos.Name = "btnPedidos";
-            btnPedidos.Size = new Size(112, 50);
+            btnPedidos.Size = new Size(160, 83);
             btnPedidos.TabIndex = 13;
             btnPedidos.Text = "Pedidos";
             btnPedidos.UseVisualStyleBackColor = true;
@@ -207,9 +218,10 @@
             button1.FlatAppearance.MouseDownBackColor = Color.FromArgb(234, 220, 185);
             button1.FlatAppearance.MouseOverBackColor = Color.FromArgb(217, 198, 155);
             button1.FlatStyle = FlatStyle.Flat;
-            button1.Location = new Point(389, 331);
+            button1.Location = new Point(556, 552);
+            button1.Margin = new Padding(4, 5, 4, 5);
             button1.Name = "button1";
-            button1.Size = new Size(112, 46);
+            button1.Size = new Size(160, 77);
             button1.TabIndex = 14;
             button1.Text = "Insumos";
             button1.UseVisualStyleBackColor = false;
@@ -217,9 +229,9 @@
             // 
             // FrmMenuPrincipal
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(746, 473);
+            ClientSize = new Size(1066, 962);
             Controls.Add(button1);
             Controls.Add(btnPedidos);
             Controls.Add(btnInventario);
@@ -231,6 +243,7 @@
             Controls.Add(pictureBox3);
             Controls.Add(btnCerrarSesion);
             Controls.Add(btnUsuarios);
+            Margin = new Padding(4, 5, 4, 5);
             Name = "FrmMenuPrincipal";
             Text = "Ariza - Menu Principal";
             Load += FrmMenuPrincipal_Load;

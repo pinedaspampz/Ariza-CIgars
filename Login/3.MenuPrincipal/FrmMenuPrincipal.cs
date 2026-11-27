@@ -17,9 +17,6 @@ namespace Ariza.MenuPrincipal
         {
             InitializeComponent();
             AplicarPermisos();
-            btnInventario.Visible = true;
-            btnInventario.Enabled = true;
-            btnInventario.BringToFront();
             btnInventario.Click += btnInventario_Click;
 
             toolTip1.SetToolTip(
@@ -103,7 +100,7 @@ namespace Ariza.MenuPrincipal
         }
 
 
-        private void btnInventario_Click(object sender, EventArgs e)
+        private void btnInventario_Click(object? sender, EventArgs e)
         {
             FrmInventario frm = new FrmInventario();
             frm.Show();
@@ -122,16 +119,6 @@ namespace Ariza.MenuPrincipal
         {
         }
 
-        private void FrmMenuPrincipal_Load(object sender, EventArgs e)
-        {
-
-
-            btnInventario.Visible = true;
-            btnInventario.Enabled = true;
-            btnInventario.Location = new Point(600, 350);
-            btnInventario.Size = new Size(128, 67);
-            btnInventario.BringToFront();
-        }
         private void toolTip1_Popup(object sender, PopupEventArgs e)
         {
         }
@@ -145,11 +132,6 @@ namespace Ariza.MenuPrincipal
             FrmPedidos frm = new FrmPedidos();
             frm.Show();
             this.Hide();
-        }
-
-        private void btnInventario_Click_1(object sender, EventArgs e)
-        {
-
         }
 
         private void button1_Click_1(object sender, EventArgs e)
